@@ -1,0 +1,170 @@
+#include <stdio.h>
+
+#define MAX 30
+struct Student
+{
+    int id;
+    float Chinese, Math, English;
+    float Total, Average;
+    char Grade;
+};
+struct Student students[MAX];
+int count = 0;
+
+void InputStudents();
+void DisplayAllStudents();
+void SearchStudents();
+void calculateOne(struct Student *p);
+
+int main()
+{
+    int choice;
+    do{
+        printf("--- 学生成绩管理系统 ---\n");
+        printf("1. 录入学生成绩\n");
+        printf("2. 显示所有学生成绩\n");
+        printf("3. 查询学生成绩\n");
+        printf("4. 退出系统\n");
+        printf("请选择操作(1-4):");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+        case 1:
+             InputStudents();
+        break;
+
+        case 2:
+             DisplayAllStudents();
+        break;
+
+        case 3:
+            SearchStudents();
+        break;
+
+        case 4:
+            printf("已退出\n");
+        break;
+
+        default:
+            printf("输入无效\n");
+        }
+    }
+    while (choice !=4);
+
+    return 0;
+}
+    void InputStudents() {
+        char cont;
+        do{
+            if (count >=MAX)
+            {
+                printf("录入学生已满！\n");
+                break;
+            }
+            printf("请输入学号:");
+            scanf("%d",&students[count].id);
+
+            printf("请输入语文成绩（1-100）：");
+            scanf("%f",&students[count].Chinese);
+
+           
+        
+        while (students[count].Chinese < 0 || students[count].Chinese > 100){
+            printf("成绩无效，请重新输入！（1-100）：");
+            scanf("%f",&students[count].Chinese);
+            }
+
+
+            printf("请输入数学成绩：");
+            scanf("%f",&students[count].Math);
+
+        while (students[count].Math < 0 || students[count].Math > 100){
+            printf("成绩无效，请重新输入！（1-100）：");
+            scanf("%f",&students[count].Math);
+            }
+
+
+            printf("请输入英语成绩：");
+            scanf("%f",&students[count].English);
+
+        while (students[count].English < 0 || students[count].English > 100){
+            printf("成绩无效，请重新输入！（1-100）：");
+            scanf("%f",&students[count].English);
+            }
+        
+        calculateOne(&students[count]);
+        
+        count++;
+
+        printf("是否继续输入（y/n）:");
+        getchar();
+        scanf("%c", &cont);
+        }
+         while (cont == 'y' || cont == 'Y');
+    }
+
+    void calculateOne(struct Student *p){
+
+        p->Total = p->Chinese + p->Math + p->English;
+        p->Average = p->Total / 3.0;
+
+        if (p->Average >= 90) p->Grade = 'A';
+        else if (p->Average >= 80) p->Grade = 'B';
+        else if (p->Average >= 70) p->Grade = 'C';
+        else if (p->Average >= 60) p->Grade = 'D';
+        else p->Grade = 'E';
+    }  
+
+    void DisplayAllStudents(){
+        if (count == 0)
+        {
+            printf("当前没有学生信息，请录入学生信息后重试！");
+            return;
+        }
+        printf("\n学号\t语文\t数学\t英语\t总分\t平均分\t等级\n");
+        printf("---------------------------------------------\n");
+        for (int i = 0; i < count; i++)
+        {
+            printf("%d\t%.1f\t%.1f\t%.1f\t%.1f\t%.1f\t%c\n",
+            students[i].id,
+            students[i].Chinese,
+            students[i].Math,
+            students[i].English,
+            students[i].Total,
+            students[i].Average, 
+            students[i].Grade );
+        }
+
+
+    }
+     void SearchStudents(){
+
+        int sid, found = 0;
+        printf("请输入想要查询学生的学号（1-30）：");
+        scanf("%d", &sid);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (students[i].id == sid)
+                {
+                    printf("学号：%d 语文：%1f 数学：%1f 英语：%1f 总分：%1f 平均分：%1f 等级：%c \n",
+                    students[i].id,
+                students[i].Chinese,
+                students[i].Math,
+                students[i].English,
+                students[i].Total,
+                students[i].Average, 
+                students[i].Grade);
+                }
+                found = 1;
+                break;
+            }
+        if (!found)
+            {
+                printf("未找到学号为%d的学生！\n", sid );
+            }
+            
+
+    }
+    

@@ -1,0 +1,112 @@
+//声明
+void SearchByName();
+void SearchByPhone();
+
+// 寻找部分
+void FindContacts() //寻找联系人
+{
+    char choiceFindC;
+    
+    if (count == 0 )
+    {
+        printf("通讯录为空！！！\n");
+        printf("是否添加联系人Y/N:");
+        getchar();
+        scanf("%c",&choiceFindC);
+    
+    while(choiceFindC == 'y' || choiceFindC == 'Y')
+    {
+        AddContact();
+    }
+
+    return;
+
+    }
+
+    char choiceFCMAX;
+
+    if (count >= MAX)
+    {
+        printf("通讯录已满！无法添加联系人，请删除失联的联系人或联系员扩容！（注：失联联系人需要人工筛查）\n");
+        printf("是否删除失联联系人（Y/N）:");
+        getchar();
+        scanf("%c",&choiceFCMAX);
+        if (choiceFCMAX == 'y' || choiceFCMAX == 'Y')
+        {
+            DeletContacts();
+        }
+        
+        return;
+    }
+    
+    int NAMEorNUMBER;
+    do
+    {
+        printf("===请选择查询方式===\n");
+        printf("1.使用姓名：\n");
+        printf("2.使用号码\n");
+        scanf("%d", &NAMEorNUMBER);
+
+        switch (NAMEorNUMBER)
+        {
+        case 1 : SearchByName();//调用“用名字查询”
+            break;
+        case 2 : SearchByPhone();//调用“用号码查询”
+            break;
+        default:
+            printf("输入无效，请重新输入");
+
+            break;
+        }
+    } while (NAMEorNUMBER != 1 && NAMEorNUMBER !=2);
+    
+    return;
+
+}
+
+void SearchByName() //按名字查询
+{
+    char name[NAME_LEN];
+    printf("请输入想要查询的姓名：");
+    scanf("%s",name);    
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(contacts[i].name,name) == 0)
+        {
+            printf("####找到联系人####\n");
+            printf("姓名：%s\n",contacts[i].name);
+            printf("性别：%s\n",contacts[i].gender);
+            printf("电话号码：%s\n",contacts[i].phone);
+            
+            return;
+        } 
+    }
+    printf("未找到联系人 (/_ /)");
+
+}
+
+void SearchByPhone() // 按号码查询
+{
+    char phone[PHONE_LEN];
+    printf("请输入想要查询的号码：");
+    scanf("%s",phone);
+
+    for (int i = 0; i < count; i++)
+    {
+        if (strcmp(contacts[i].phone,phone) == 0)
+        {
+            printf("####找到联系人####\n");
+            printf("姓名：%s\n",contacts[i].name);
+            printf("性别：%s\n",contacts[i].gender);
+            printf("电话号码：%s\n",contacts[i].phone);
+            
+            return;
+        }
+        
+    }
+    
+    printf("未找到联系人 (/_ /)");
+    
+}
+
